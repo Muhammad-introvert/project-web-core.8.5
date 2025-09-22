@@ -1,0 +1,87 @@
+/* Контейнер */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Список брендов */
+.brands-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Элемент списка (рамка) */
+.brands-list li {
+  flex: 0 0 calc(20% - 16px); /* 5 элементов в ряд */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100px;             /* одинаковая высота для всех рамок */
+  border: 1px solid #ddd;    /* рамка */
+  border-radius: 8px;        /* скруглённые углы */
+  background: #fff;          /* фон */
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+/* Ховер-эффект */
+.brands-list li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Картинки */
+.brands-list li img {
+  max-width: 70%;   /* чтобы логотипы не упирались в рамку */
+  max-height: 60%;  /* ограничиваем высоту */
+  object-fit: contain;
+  display: block;
+}
+
+/* Кнопка */
+#toggleButton {
+  margin-top: 16px;
+  padding: 10px 20px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#toggleButton:hover {
+  background: #e0e0e0;
+}
+
+/* --- Адаптив --- */
+
+/* Планшеты: 3 элемента в ряд */
+@media (max-width: 1024px) {
+  .brands-list li {
+    flex: 0 0 calc(33.333% - 16px);
+  }
+}
+
+/* Смартфоны: Swiper возьмёт управление */
+@media (max-width: 767px) {
+  .brands-list {
+    display: block; /* Swiper перестраивает под слайдер */
+  }
+
+  .brands-list li {
+    flex: none;
+    width: auto;
+    height: 80px; /* можно чуть меньше для мобилки */
+  }
+}
+
+/* Скрытые элементы */
+.hidden {
+  display: none;
+}
