@@ -1,43 +1,51 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const brandsList = document.getElementById('brandsList');
-  const items = brandsList.querySelectorAll('li');
-  const toggleBtn = document.getElementById('toggleButton');
-  const mobileWidth = 767;
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileContainer = document.querySelector('.mobile-brands-container');
+    const desktopContainer = document.querySelector('.desktop-brands-container');
+    const toggleButton = document.getElementById('toggleButton');
+    
+    let swiperInstance = null;
 
-  // Десктоп: скрываем все элементы после 5-го
-  if (window.innerWidth > mobileWidth) {
-    items.forEach((item, index) => {
-      if (index >= 5) item.classList.add('hidden');
-    });
-  }
-
-  // Мобилка: активируем Swiper
-  if (window.innerWidth <= mobileWidth) {
-    brandsList.classList.add('swiper-wrapper');
-    items.forEach(item => item.classList.add('swiper-slide'));
-
-    new Swiper('.brands-list', {
-      slidesPerView: 1,
-      spaceBetween: 10,
-      loop: false
-    });
-
-    toggleBtn.style.display = 'none'; // скрываем кнопку
-  }
-
-  // Логика кнопки
-  toggleBtn.addEventListener('click', function() {
-    const isExpanded = toggleBtn.textContent.includes('Скрыть');
-    if (!isExpanded) {
-      items.forEach((item, index) => {
-        if (index >= 5) item.classList.remove('hidden');
-      });
-      toggleBtn.textContent = 'Скрыть';
-    } else {
-      items.forEach((item, index) => {
-        if (index >= 5) item.classList.add('hidden');
-      });
-      toggleBtn.textContent = 'Показать все';
+    function handleDisplay() {
+        const viewportWidth = window.innerWidth;
+        
+        if (viewportWidth < 768) {
+            if (!swiperInstance) {
+                swiperInstance = new Swiper('.brands-list', {
+                    slidesPerView: 1,
+                    spaceBetween: 15,
+                    freeMode: true,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                });
+            }
+        } else {
+            if (swiperInstance) {
+                swiperInstance.destroy(true, true);
+                swiperInstance = null;
+            }
+        }
     }
-  });
+
+    function toggleBrands() {
+        const isExpanded = desktopContainer.classList.contains('show-all');
+        
+        if (isExpanded) {
+            desktopContainer.classList.remove('show-all');
+            toggleButton.textContent = 'Показать все';
+            toggleButton.classList.remove('expanded');
+        } else {
+            desktopContainer.classList.add('show-all');
+            toggleButton.textContent = 'Скрыть';
+            toggleButton.classList.add('expanded');
+        }
+    }
+
+    if (toggleButton) {
+        toggleButton.addEventListener('click', toggleBrands);
+    }
+    
+    window.addEventListener('load', handleDisplay);
+    window.addEventListener('resize', handleDisplay);
 });

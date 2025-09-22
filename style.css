@@ -1,87 +1,136 @@
-/* Контейнер */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+h2 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #a9a9a9;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+.brand-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    position: relative;
+    box-sizing: border-box;
+}
+.brand-item img {
+    max-height: 40px;
+    max-width: 80%;
+    object-fit: contain;
+}
+.brand-item::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #e6007e;
+    border-radius: 50%;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.brand-item::before {
+    content: '>';
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #e6007e;
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
 }
 
-/* Список брендов */
-.brands-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
+/* --- Скрываем оба контейнера по умолчанию --- */
+.mobile-brands-container,
+.desktop-brands-container {
+    display: none;
 }
-
-/* Элемент списка (рамка) */
-.brands-list li {
-  flex: 0 0 calc(20% - 16px); /* 5 элементов в ряд */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 100px;             /* одинаковая высота для всех рамок */
-  border: 1px solid #ddd;    /* рамка */
-  border-radius: 8px;        /* скруглённые углы */
-  background: #fff;          /* фон */
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-sizing: border-box;
-}
-
-/* Ховер-эффект */
-.brands-list li:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* Картинки */
-.brands-list li img {
-  max-width: 70%;   /* чтобы логотипы не упирались в рамку */
-  max-height: 60%;  /* ограничиваем высоту */
-  object-fit: contain;
-  display: block;
-}
-
-/* Кнопка */
 #toggleButton {
-  margin-top: 16px;
-  padding: 10px 20px;
-  border: 1px solid #333;
-  border-radius: 6px;
-  background: #f5f5f5;
-  cursor: pointer;
-  transition: background 0.2s;
+    display: none;
 }
 
-#toggleButton:hover {
-  background: #e0e0e0;
-}
-
-/* --- Адаптив --- */
-
-/* Планшеты: 3 элемента в ряд */
-@media (max-width: 1024px) {
-  .brands-list li {
-    flex: 0 0 calc(33.333% - 16px);
-  }
-}
-
-/* Смартфоны: Swiper возьмёт управление */
+/* --- Мобильные (меньше 768px) --- */
 @media (max-width: 767px) {
-  .brands-list {
-    display: block; /* Swiper перестраивает под слайдер */
-  }
-
-  .brands-list li {
-    flex: none;
-    width: auto;
-    height: 80px; /* можно чуть меньше для мобилки */
-  }
+    .mobile-brands-container {
+        display: block; /* Показываем Swiper-контейнер */
+    }
+    .brand-item {
+        width: calc(100% - 30px);
+        height: 72px;
+    }
 }
 
-/* Скрытые элементы */
-.hidden {
-  display: none;
+/* --- Планшеты (от 768px до 1023px) --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .desktop-brands-container {
+        display: flex; /* Показываем Flexbox-контейнер */
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .brand-item {
+        width: calc(33.333% - 10px);
+    }
+    .brand-item:nth-child(n+7) {
+        display: none;
+    }
+    .show-all .brand-item:nth-child(n+7) {
+        display: flex;
+    }
+    #toggleButton {
+        display: flex;
+    }
+}
+
+/* --- Десктоп (ширина > 1024px) --- */
+@media (min-width: 1024px) {
+    .desktop-brands-container {
+        display: flex; /* Показываем Flexbox-контейнер */
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .brand-item {
+        width: calc(25% - 12px);
+    }
+    .brand-item:nth-child(n+9) {
+        display: none;
+    }
+    .show-all .brand-item:nth-child(n+9) {
+        display: flex;
+    }
+    #toggleButton {
+        display: flex;
+    }
+}
+
+#toggleButton {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+#toggleButton::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-down\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'%3E%3C/polyline%3E%3C/svg%3E');
+    background-size: contain;
+    margin-right: 5px;
+    transition: transform 0.3s ease;
+}
+#toggleButton.expanded::before {
+    transform: rotate(180deg);
 }
