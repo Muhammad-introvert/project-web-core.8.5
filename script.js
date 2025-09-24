@@ -20,10 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                 });
             }
+            if (toggleButton) {
+                toggleButton.classList.add('toggle-button--hidden');
+            }
         } else {
             if (swiperInstance) {
                 swiperInstance.destroy(true, true);
                 swiperInstance = null;
+            }
+            if (toggleButton) {
+                toggleButton.classList.remove('toggle-button--hidden');
             }
         }
     }
